@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+"""***************************************************************************************************
+** ds18b20.py - Getting temperatures from multiple                                                   *
+** DS18b20 temperature sensor                                                                        *
+******************************************************************************************************
+** Author : Xavier Caron                                                                             *
+** based on Adafruit script                                                                          *
+** https://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/software  *
+**                                                                                                   *
+** This script checks all ds18b20 sensor plugged to the Raspberry pi                                 *
+** and creates a raw csv file formatted as such :                                                    *
+** DATETIME ; SENSOR1 ; SENSOR2 ; ...                                                                *
+**                                                                                                   *
+**                                                                                                   *
+** Website : blog.biologeek.io                                                                       *
+**                                                                                                   *
+***************************************************************************************************"""
+
+
+import os
+import glob
+import datetime
+import time
+
+
+
+
+
