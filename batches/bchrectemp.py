@@ -121,7 +121,7 @@ def read_temp():
 	return temp_c
 
 
-def write_temp_into_csv (data):
+def write_temp_into_csv (data,w):
 	"""
 		function write_temp_into_csv
 		- IN : data : String to write 
@@ -130,7 +130,7 @@ def write_temp_into_csv (data):
 		If data != \n, it deletes the \n character
 	"""
 
-	w = open(csv_to_write, 'a')
+
 	if (str (data) !="\n") :
 		w.write(str(data).rstrip("\n"))
 	else :
@@ -159,11 +159,12 @@ def write_temp_into_mysql (date, uuid, probe, temperature, brassin, etape):
 		print "*** INSERT FAILED ****"
 
 
-	
+
 
 
 print device_folder
 
+w = open(csv_to_write, 'a')
 while True:
 	try :
 		if len(sys.argv) != 3 :
@@ -181,7 +182,10 @@ while True:
 		temperatures = read_temp()
 		print temperatures
 		if len(temperatures) > 0 :
-			write_temp_into_csv(date)
+			write_temp_into_csv(date,w)
+			write_temp_into_csv(';'+str(mes_brew,)w)
+			write_temp_into_csv(';'+str(mes_step),w)
+			write_temp_into_csv(';'+str(mes_step),w)
 			print temperatures
 
 			i=0
@@ -189,14 +193,15 @@ while True:
 
 				probeUUID= os.path.basename(device_folder[i])
 			
-				write_temp_into_csv(';'+str(temp))
+				write_temp_into_csv(';'+str(probe_uuid[i]),w)
+				write_temp_into_csv(';'+str(temp),w)
 				write_temp_into_mysql(date, probe_uuids[i], str(i), temp, mes_brew, mes_step)
 				print "write_temp_into_mysql(date, probe_uuids[i], str(i), temp, mes_brew, mes_step)"
 				#write_temp_into_mysql(date, probeUUId, i, temp)
 			   	i+=1
 
 
-			write_temp_into_csv("\n")
+			write_temp_into_csv("\n",w)
 
 
 			time.sleep(0.5)

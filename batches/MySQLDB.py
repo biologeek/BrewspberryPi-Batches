@@ -21,6 +21,7 @@ class MySQLDB:
 
 
 	def connect (self):
+		print "MySQLdb.connect(host="+self.conf[0]+",user="+self.conf[2]+",passwd="+self.conf[3]+", db="+self.conf[1]+")"
 		self.db_connection = MySQLdb.connect(host=self.conf[0],user=self.conf[2],passwd=self.conf[3], db=self.conf[1])
 		self.cursor = self.db_connection.cursor()
 
