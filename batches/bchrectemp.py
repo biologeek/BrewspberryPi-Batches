@@ -35,7 +35,7 @@ from MySQLDB import MySQLDB
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
-PROJECT_DIR = "/home/pi/brewspberry-batches/"
+PROJECT_DIR = "/home/pi/Brewspberry-Batches/"
 base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')
 device_file = [f + '/w1_slave' for f in device_folder]
