@@ -138,7 +138,7 @@ def write_temp_into_csv (data,w):
 	w.close()
 
 
-def write_temp_into_mysql (date, uuid, probe, temperature, brassin, etape):
+def write_temp_into_mysql (date, uuid, probe, temperature, brassin, etape, actioner):
 	"""
 	
 		function write_temp_into_mysql
@@ -148,7 +148,7 @@ def write_temp_into_mysql (date, uuid, probe, temperature, brassin, etape):
 		This function inserts a new entry in mysql table for probes (name defined in header)
 	"""
 
-	req = "INSERT INTO `"+db_table_name+"` (`tmes_id`, `tmes_date`, `tmes_probeUI`, `tmes_probe_name`, `tmes_value`, `tmes_etape_id`, `tmes_bra_id`) VALUES (NULL, '"+str(date)+"', '"+str(uuid)+"', 'PROBE"+str(probe)+"', '"+str(temperature)+"', "+str(etape)+", "+str(brassin)+");"
+	req = "INSERT INTO `"+db_table_name+"` (`tmes_id`, `tmes_date`, `tmes_probeUI`, `tmes_probe_name`, `tmes_value`, `tmes_act_id`, `tmes_etape_id`, `tmes_bra_id`) VALUES (NULL, '"+str(date)+"', '"+str(uuid)+"', 'PROBE"+str(probe)+"', '"+str(actioner)+"', '"+str(temperature)+"', "+str(etape)+", "+str(brassin)+");"
 	
 	print req
 	try:
@@ -167,23 +167,24 @@ print device_folder
 w = open(csv_to_write, 'a')
 while True:
 	try :
-		if len(sys.argv) != 3 :
+		if len(sys.argv) != 4 :
 			print "FATAL : Program called with "+str(len(sys.argv))+" arguments"
 			print "Please call like that : "
 			print ""
-			print "python bchrectemp.py brewID etapeID"
+			print "python bchrectemp.py brewID etapeID actionerID"
 
 			sys.exit(1)
 
 		mes_brew = sys.argv[1]
 		mes_step = sys.argv[2]
+		mes_actioner = sys.argv[3]
 
 		date = str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
 		temperatures = read_temp()
 		print temperatures
 		if len(temperatures) > 0 :
 			write_temp_into_csv(date,w)
-			write_temp_into_csv(';'+str(mes_brew,)w)
+			write_temp_into_csv(';'+str(mes_brew,),w)
 			write_temp_into_csv(';'+str(mes_step),w)
 			write_temp_into_csv(';'+str(mes_step),w)
 			print temperatures
@@ -195,8 +196,8 @@ while True:
 			
 				write_temp_into_csv(';'+str(probe_uuid[i]),w)
 				write_temp_into_csv(';'+str(temp),w)
-				write_temp_into_mysql(date, probe_uuids[i], str(i), temp, mes_brew, mes_step)
-				print "write_temp_into_mysql(date, probe_uuids[i], str(i), temp, mes_brew, mes_step)"
+				write_temp_into_mysql(date, probe_uuids[i], str(i), temp, mes_brew, mes_step, mes_actioner)
+				print "write_temp_into_mysql(date, probe_uuids[i], str(i), temp, mes_brew, mes_step, mes_actioner)"
 				#write_temp_into_mysql(date, probeUUId, i, temp)
 			   	i+=1
 
