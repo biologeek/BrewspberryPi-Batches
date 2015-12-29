@@ -148,7 +148,7 @@ def write_temp_into_mysql (date, uuid, probe, temperature, brassin, etape, actio
 		This function inserts a new entry in mysql table for probes (name defined in header)
 	"""
 
-	req = "INSERT INTO `"+db_table_name+"` (`tmes_id`, `tmes_date`, `tmes_probeUI`, `tmes_probe_name`, `tmes_value`, `tmes_act_id`, `tmes_etape_id`, `tmes_bra_id`) VALUES (NULL, '"+str(date)+"', '"+str(uuid)+"', 'PROBE"+str(probe)+"', '"+str(actioner)+"', '"+str(temperature)+"', "+str(etape)+", "+str(brassin)+");"
+	req = "INSERT INTO `"+db_table_name+"` (`tmes_id`, `tmes_date`, `tmes_probeUI`, `tmes_probe_name`, `tmes_value`, `tmes_act_id`, `tmes_etape_id`, `tmes_bra_id`) VALUES (NULL, '"+str(date)+"', '"+str(uuid)+"', 'PROBE"+str(probe)+"', '"+str(temperature)+"', '"+str(actioner)+"', "+str(etape)+", "+str(brassin)+");"
 	
 	print req
 	try:
