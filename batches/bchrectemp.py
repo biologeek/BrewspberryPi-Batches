@@ -35,13 +35,13 @@ from MySQLDB import MySQLDB
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
-PROJECT_DIR = "/home/pi/BrewspberryPi-Batches/"
-base_dir = '/sys/bus/w1/devices/'
-device_folder = glob.glob(base_dir + '28*')
+PROJECT_DIR = "/home/pi/BrewspberryPi-Batches"
+base_dir = '/sys/bus/w1/devices'
+device_folder = glob.glob(base_dir + '/28*')
 device_file = [f + '/w1_slave' for f in device_folder]
-csv_to_write = PROJECT_DIR+"fic/ds18b20_raw_measurements.csv"
+csv_to_write = PROJECT_DIR+"/fic/ds18b20_raw_measurements.csv"
 
-db_conf_file = PROJECT_DIR+"conf/db/mysql.conf"
+db_conf_file = PROJECT_DIR+"/conf/db/mysql.conf"
 db_table_name = "TemperatureMeasurement"
 
 time_to_sleep = 0.2
@@ -135,7 +135,7 @@ def write_temp_into_csv (data,w):
 		w.write(str(data).rstrip("\n"))
 	else :
 		w.write (str(data))
-	w.close()
+	
 
 
 def write_temp_into_mysql (date, uuid, probe, temperature, brassin, etape, actioner):
@@ -184,9 +184,9 @@ while True:
 		print temperatures
 		if len(temperatures) > 0 :
 			write_temp_into_csv(date,w)
-			write_temp_into_csv(';'+str(mes_brew,),w)
+			write_temp_into_csv(';'+str(mes_brew),w)
 			write_temp_into_csv(';'+str(mes_step),w)
-			write_temp_into_csv(';'+str(mes_step),w)
+			write_temp_into_csv(';'+str(mes_actioner),w)
 			print temperatures
 
 			i=0
@@ -194,7 +194,7 @@ while True:
 
 				probeUUID= os.path.basename(device_folder[i])
 			
-				write_temp_into_csv(';'+str(probe_uuid[i]),w)
+				write_temp_into_csv(';'+str(probe_uuids[i]),w)
 				write_temp_into_csv(';'+str(temp),w)
 				write_temp_into_mysql(date, probe_uuids[i], str(i), temp, mes_brew, mes_step, mes_actioner)
 				print "write_temp_into_mysql(date, probe_uuids[i], str(i), temp, mes_brew, mes_step, mes_actioner)"
@@ -208,6 +208,7 @@ while True:
 			time.sleep(0.5)
 	except KeyboardInterrupt:
 		print "Bye"
+		write_temp_into_csv("\n",w)
 		mysql.disconnect()
 		sys.exit(0)
 
