@@ -164,8 +164,9 @@ def write_temp_into_mysql (date, uuid, probe, temperature, brassin, etape, actio
 
 print device_folder
 
-w = open(csv_to_write, 'a')
+
 while True:
+	w = open(csv_to_write, 'a')
 	try :
 		if len(sys.argv) != 4 :
 			print "FATAL : Program called with "+str(len(sys.argv))+" arguments"
@@ -206,8 +207,10 @@ while True:
 
 
 			time.sleep(0.5)
+		w.close()
 	except KeyboardInterrupt:
 		print "Bye"
+		write_temp_into_csv("\n",w)
 		mysql.disconnect()
 		sys.exit(0)
 
