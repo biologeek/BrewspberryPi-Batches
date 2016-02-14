@@ -35,7 +35,8 @@ from MySQLDB import MySQLDB
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
-PROJECT_DIR = "/home/pi/brewspberrypi-batches"
+MAIN_DIR = "/opt/tomcat/webapps"
+PROJECT_DIR = MAIN_DIR+"/brewspberry-batches"
 base_dir = '/sys/bus/w1/devices'
 device_folder = glob.glob(base_dir + '/28*')
 device_file = [f + '/w1_slave' for f in device_folder]
@@ -134,7 +135,8 @@ def write_temp_into_csv (data,w):
 	if (str (data) !="\n") :
 		w.write(str(data).rstrip("\n"))
 	else :
-		w.write (str(data))
+		if (os.stat(w).st_size != 0):
+			w.write (str(data))
 	
 
 
@@ -184,6 +186,8 @@ while True:
 		temperatures = read_temp()
 		print temperatures
 		if len(temperatures) > 0 :
+			
+			write_temp_into_csv("\n",w)
 			write_temp_into_csv(date,w)
 			write_temp_into_csv(';'+str(mes_brew),w)
 			write_temp_into_csv(';'+str(mes_step),w)
@@ -203,7 +207,6 @@ while True:
 			   	i+=1
 
 
-			write_temp_into_csv("\n",w)
 
 
 			time.sleep(0.5)
