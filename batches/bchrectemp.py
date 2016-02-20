@@ -170,17 +170,24 @@ print device_folder
 while True:
 	w = open(csv_to_write, 'a')
 	try :
-		if len(sys.argv) != 4 :
+		
+		# if len = 4 insert in DB, else not
+		if len(sys.argv) != 4 and len(sys.argv) != 1 :
 			print "FATAL : Program called with "+str(len(sys.argv))+" arguments"
 			print "Please call like that : "
 			print ""
 			print "python bchrectemp.py brewID etapeID actionerID"
-
+			
 			sys.exit(1)
-
-		mes_brew = sys.argv[1]
-		mes_step = sys.argv[2]
-		mes_actioner = sys.argv[3]
+		if len(sys.argv) == 4 :	
+			mes_brew = sys.argv[1]
+			mes_step = sys.argv[2]
+			mes_actioner = sys.argv[3]
+			
+		else :
+			mes_brew = 0
+			mes_step = 0
+			mes_actioner = 0
 
 		date = str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
 		temperatures = read_temp()
@@ -201,10 +208,11 @@ while True:
 			
 				write_temp_into_csv(';'+str(probe_uuids[i]),w)
 				write_temp_into_csv(';'+str(temp),w)
-				write_temp_into_mysql(date, probe_uuids[i], str(i), temp, mes_brew, mes_step, mes_actioner)
-				print "write_temp_into_mysql(date, probe_uuids[i], str(i), temp, mes_brew, mes_step, mes_actioner)"
-				#write_temp_into_mysql(date, probeUUId, i, temp)
-			   	i+=1
+				
+				if len(sys.argv) == 4 :
+					write_temp_into_mysql(date, probe_uuids[i], str(i), temp, mes_brew, mes_step, mes_actioner)
+					print "write_temp_into_mysql(date, probe_uuids[i], str(i), temp, mes_brew, mes_step, mes_actioner)"
+				i+=1
 
 
 
